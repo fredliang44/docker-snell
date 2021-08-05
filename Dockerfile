@@ -1,17 +1,25 @@
-FROM alpine:edge as builder
+FROM alpine as builder
 
 LABEL maintainer="metowolf <i@i-meto.com>"
 
 ENV SNELL_VERSION 2.0.0
 
-RUN apk update \
-  && apk add --no-cache \
-    unzip \
-    upx \
-  && wget -O snell-server.zip https://github.com/surge-networks/snell/releases/download/v${SNELL_VERSION}/snell-server-v${SNELL_VERSION}-linux-amd64.zip \
-  && unzip snell-server.zip \
-  && upx --brute snell-server \
-  && mv snell-server /usr/local/bin/
+RUN case `uname -m` in \
+        x86_64) ARCH=amd64; ;; \
+        armv7l) ARCH=arm; ;; \
+        aarch64) ARCH=arm64; ;; \
+        ppc64le) ARCH=ppc64le; ;; \
+        s390x) ARCH=s390x; ;; \
+        *) echo "un-supported arch, exit ..."; exit 1; ;; \
+    esac \
+    && apk update \
+    && apk add --no-cache \
+      unzip \
+      upx \
+    && wget -O snell-server.zip https://github.com/surge-networks/snell/releases/download/v${SNELL_VERSION}/snell-server-v${SNELL_VERSION}-linux-${ARCH}.zip \
+    && unzip snell-server.zip \
+    && upx --brute snell-server \
+    && mv snell-server /usr/local/bin/
 
 
 FROM alpine:3.9
