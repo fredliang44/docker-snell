@@ -2,7 +2,7 @@ FROM alpine:edge as builder
 
 LABEL maintainer="metowolf <i@i-meto.com>"
 
-ENV SNELL_VERSION 2.0.4
+ENV SNELL_VERSION 3.0.1
 
 RUN case `uname -m` in \
       x86_64) ARCH=amd64; ;; \
