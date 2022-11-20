@@ -2,7 +2,7 @@ FROM alpine:edge as builder
 
 LABEL maintainer="metowolf <i@i-meto.com>"
 
-ENV SNELL_VERSION 3.0.1
+ENV SNELL_VERSION 4.0.0
 
 RUN case `uname -m` in \
       x86_64) ARCH=amd64; ;; \
@@ -19,8 +19,8 @@ RUN case `uname -m` in \
     && apk add --no-cache \
       unzip \
       # upx \
-    && echo "https://github.com/surge-networks/snell/releases/download/v${SNELL_VERSION}/snell-server-v${SNELL_VERSION}-linux-${ARCH}.zip" \
-    && wget -O snell-server.zip https://github.com/surge-networks/snell/releases/download/v${SNELL_VERSION}/snell-server-v${SNELL_VERSION}-linux-${ARCH}.zip \
+    && echo "https://dl.nssurge.com/snell/snell-server-v${SNELL_VERSION}-linux-${ARCH}.zip" \
+    && wget -O snell-server.zip https://dl.nssurge.com/snell/snell-server-v${SNELL_VERSION}-linux-${ARCH}.zip \
     && unzip snell-server.zip \
     # && upx --brute snell-server \
     && mv snell-server /usr/local/bin/
